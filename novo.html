@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<ul class='custom-menu'>
+    <li data-action = "first">Add Attack</li>
+</ul>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Argument</h4>
+            </div>
+            <div class="modal-body">
+             <!--   <textarea id="nodeText" class="newArg" type="text" style="resize:none" rows=5 cols=50 maxlength=200 placeholder="Your argument here"></textarea> -->
+                <div id="divTextarea" contentEditable="true" data-text="Insert your argument here"></div>
+                <div class="image-upload">
+                    <label for="file-input">
+                        <img src="images/imgPlaceholder.png" style="cursor: pointer"/>
+                        <text  style="cursor: pointer; color: black">Upload Image/Video</text>
+
+                    </label>
+
+                    <input id="file-input" type='file' onchange="handleFiles(this.files);" style="display:none" />
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" id="submitArg" class="btn btn-default" data-dismiss="modal">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="pageContainer">
+<div id="rightbarContainer">
+<div id="nodePreviewContainer">
+    <div id="nodePreviewTitle">Preview</div>
+    <div id="nodePreview">
+        <div id="nodePreviewBackDefault">Select an argument to display</div>
+    </div>
+</div>
+</div>
+</div>
+<style>
+
+    [contentEditable=true]:empty:not(:focus):before{
+        content:attr(data-text)
+    }
+
+    #divTextarea{
+        width: 400px;
+        height: 200px;
+        border: 1px solid #ccc;
+    }
+
+    #posVotesPrev{
+        margin-left: 5px;
+    }
+
+    #negVotesPrev{
+        margin-left: 5px;
+    }
+    #closePreview{
+        position: absolute;
+        top:1px;
+        right: 4px;
+        font-size: large;
+        color: #000000;
+        cursor: pointer;
+        z-index: 3;
+    }
+
+    #pageContainer{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: -1;
+    }
+
+    #rightbarContainer{
+        width: 20%;
+        height: 85%;
+        position: relative;
+        z-index: 2 !important;
+        float: right;
+        margin-left: 5px;
+    }
+
+    #nodePreviewBackDefault{
+        top: 30%;
+        position: relative;
+        vertical-align: middle;
+        font-size: x-large;
+        left: 10%;
+        color: #b9b9b9;
+        transform: rotate(320deg) scale(1) skew(1deg) translate(0px);
+        -webkit-transform: rotate(320deg) scale(1) skew(1deg) translate(0px);
+        -moz-transform: rotate(320deg) scale(1) skew(1deg) translate(0px);
+        -o-transform: rotate(320deg) scale(1) skew(1deg) translate(0px);
+        -ms-transform: rotate(320deg) scale(1) skew(1deg) translate(0px);
+    }
+
+    #nodePreviewContainer{
+        position: relative;
+        width: 100%;
+        height: 74.2%;
+    /*    z-index: 2 !important; */
+        float: right;
+        top: 20%;
+
+    }
+
+    #nodePreviewTitle{
+        font-family: 'Montserrat', sans-serif;
+        position: absolute;
+        height: 50px;
+        top:8%;
+        font-size: large;
+        float: right;
+        text-align: center !important;
+        vertical-align: middle;
+        display: inline;
+        margin-left: 5px;
+
+    }
+
+    #nodePreview {
+        position: absolute;
+        width: 100%;
+        height: 85%;
+        border: 1px solid lightgray;
+        border-radius: 0px;
+        background-color: #f0f0f0;
+        float: right;
+        bottom:0;
+        z-index: 2 !important;
+    }
+
+    .custom-menu {
+        display: none;
+        z-index: 1000;
+        position: absolute;
+        overflow: hidden;
+        border: 1px solid #CCC;
+        white-space: nowrap;
+        font-family: sans-serif;
+        background: #FFF;
+        color: #333;
+        border-radius: 5px;
+    }
+
+    .custom-menu li {
+        padding: 8px 12px;
+        cursor: pointer;
+        list-style-type: none;
+    }
+
+    .custom-menu li:hover {
+        background-color: #DEF;
+    }
+
+    ul {
+        padding: 0;
+        list-style-type: none;
+    }
+
+    /* The Modal (background) */
+    .myModal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+
+    svg  {
+        border:2px solid black;
+    }
+
+    .links line {
+        stroke: #999;
+        stroke-opacity: 0.6;
+    }
+
+
+    .contentDiv {
+        stroke: #fff;
+        stroke-width: 1.5px;
+        background: transparent;
+        border:1px solid black;
+        height: 100%;
+        overflow-wrap: break-word;
+    }
+
+    #likeDiv {
+        border:1px solid black;
+        width:115px;
+        margin-left: 50px;
+    }
+
+    #likeDiv button{
+        background: transparent;
+        border-style: none;
+    }
+
+    #dislike{
+        padding-left: 15px;
+    }
+
+    .nodes video{
+        position: fixed;
+        height: 80%;
+    }
+
+    foreignObject{
+        height: 150px;
+        width: 230px;
+        background: transparent;
+    }
+
+</style>
+<svg width="1600" height="800"></svg>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="dist/jquery.svg.es5.min.js"></script>
+<script>
+
+    function handleFiles(files) {
+        if(files.length){
+            for(var i = 0; i < files.length; i++){
+                console.log(files[i].type)
+                var fileType = files[i].type.split("/")[0];
+                if(fileType == "image"){
+                    var img = document.createElement("img");
+                    img.src = window.URL.createObjectURL(files[i]);
+                    img.height = 120;
+                    img.onload = function() {
+                        window.URL.revokeObjectURL(this.src);
+                    }
+                    var textArea = document.getElementById("divTextarea");
+                    textArea.appendChild(img);
+                }
+                if(fileType == "video"){
+                    var vid = document.createElement("video");
+                    vid.src = window.URL.createObjectURL(files[i]);
+                    vid.height = 120;
+                    vid.onload = function() {
+                        window.URL.revokeObjectURL(this.src);
+                    }
+                    var textArea = document.getElementById("divTextarea");
+                    textArea.appendChild(vid);
+                }
+            }
+        }
+    }
+
+    var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height"),
+        limitX = 200,
+        limitY = 150;
+
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+    svg.append("svg:defs").selectAll("marker")
+        .data(["end"])      // Different link/path types can be defined here
+        .enter().append("svg:marker")    // This section adds in the arrows
+        .attr("id", String)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 10)
+        .attr("refY", 0)
+        .attr("markerWidth", 11)
+        .attr("markerHeight", 7)
+        .attr("orient", "auto")
+        .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("fill", "green")
+
+    var simulation = d3.forceSimulation()
+        .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(300))
+        .force("charge", d3.forceManyBody().strength(-2000).distanceMax(500).distanceMin(200))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .alphaTarget(1);
+
+    d3.json("data.json", function(error, graph) {
+        if (error) throw error;
+
+        var g = svg.append("g")
+            .attr("class", "everything");
+
+
+        var link = g.append("g")
+            .attr("class", "links")
+            .attr('marker-end', 'url(#end)')
+            .selectAll("line")
+            .data(graph.links)
+            .enter().append("line")
+            .attr("stroke-width", function (d) {
+                return Math.sqrt(d.value);
+            })
+            .on("mouseover", function () {
+                var fo = svg.append("foreignObject")
+                    .attr("width", 100)
+                    .attr("height", 30)
+                    .attr("x", d3.mouse(this)[0] - 30)
+                    .attr("y", d3.mouse(this)[1] - 30)
+                    .attr("class", "svg-tooltip")
+                var linkLikeDiv = fo.append("xhtml:div")
+                    .attr("id", "likeDiv")
+                    .style("font", "20px 'Helvetica Neue'")
+                    .html("<button style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-up\"></i></button>"
+                        + " 0 " + "<button id =\"dislike\" style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-down\"></i></button>" +
+                        " 0 ")
+            })
+            .on("mouseout", function () {
+                svg.selectAll(".svg-tooltip").remove();
+            })
+
+        var node = g.append("g")
+            .attr("class", "nodes")
+            .attr("transform", "translate(" + -30 + "," + -30 + ")")
+            .selectAll("foreignObject")
+            .data(graph.nodes)
+            .enter().append("foreignObject")
+            .attr("width", 230)
+            .attr("height", 150)
+            .attr("fill", function (d) {
+                return color(d.group);
+            })
+            .on("mouseover", function(d){
+                showPreview(d);
+            })
+            .on("mouseout", function(d){
+                hidePreview();
+            })
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+        var contentDiv = d3.selectAll("foreignObject")
+            .append("xhtml:div")
+            .attr("id", "contentDiv")
+            .attr("class", "contentDiv")
+            .attr("name", function (d){
+                return d.id;
+            })
+            .style("font", "20px 'Helvetica Neue'")
+            .style("background-color", function (d) {
+                return calcColor(d);
+            })
+            .html(function (d) {
+                return d.content;
+            });
+
+        var zoom_handler = d3.zoom()
+            .on("zoom", zoom_actions);
+
+        zoom_handler(svg);
+
+        function zoom_actions(){
+            g.attr("transform", d3.event.transform)
+        }
+
+        function showPreview(d) {
+                $('#nodePreview').css('background-color', calcColor(d));
+                $('#nodePreview').html('<p><b>User:  </b>'+d.author+'</p>' +
+                    '<p><b>Score:  </b>'+d.score+'</p>' +
+                    '<p><b>Text:  </b>'+d.content
+                    +
+                    '<div style="position: absolute;bottom:0;"><p>    <span id="posVotesPrev" onclick="" class="fa fa-thumbs-o-up"></span><span id="posVotesPrevNum" onclick="return false;" class="notClickable">  '+0+'</span>' +
+                    '<span id="negVotesPrev" onclick="" class="fa fa-thumbs-o-down"></span><span id="negVotesPrevNum" class="notClickable" onclick="return false;">  '+0+'</span></p></div>');
+            }
+            
+            function hidePreview() {
+                $('#nodePreview').html('<div id="nodePreviewBackDefault">Select an argument to display</div>');
+                $('#nodePreview').css('border', '1px solid lightgray');
+                $('#nodePreview').css('background-color', '#f0f0f0');
+            }
+
+            function calcColor(d) {
+                var red;
+                var green;
+                var blue;
+                var relScore;
+              if(d.score <= 0.5){
+                  relScore = d.score * 2;
+                  red = Math.round(255 - relScore * 38);
+                  green = Math.round(33 + relScore * 184);
+                  blue = green
+              }
+              else{
+                  relScore = (d.score - 0.5) * 2;
+                  red = Math.round(217 - relScore * 184);
+                  green = Math.round(217 + relScore * 38);
+                  blue = red;
+              }
+
+                return 'rgb(' + red + ',' + green + ',' + blue + ')';
+            }
+   /*       function showContent(d) {
+            if (d.type == "text")
+                return d.content;
+            else if (d.type == "image")
+                return "<img src = " + d.content + " width = \"222.5\" height = \"145\">";
+            else if (d.type == "video") {
+                return "<video src= " + d.content + "  controls> </video>"
+            }
+
+        }
+*/
+        var likeDiv = d3.selectAll("foreignObject")
+            .append("xhtml:div")
+            .attr("id", "likeDiv")
+            .style("font", "20px 'Helvetica Neue'")
+            .html("<button style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-up\"></i></button>"
+                + " 0 " + "<button id =\"dislike\" style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-down\"></i></button>" +
+                " 0 ")
+
+
+       /* var removeNodeButton = document.createElement("button")
+        removeNodeButton.innerHTML = "Remove Node"
+        removeNodeButton.style.height = "50px"
+        removeNodeButton.style.width = "100px"
+        removeNodeButton.style.position = "relative"
+        removeNodeButton.style.top = "-100px"
+
+        var body = document.getElementsByTagName("body")[0]
+        body.appendChild(removeNodeButton)
+
+        removeNodeButton.addEventListener("click", function () {
+
+           exitNode =  graph.nodes.pop()
+            nodes = svg.selectAll("g.nodes").selectAll("foreignObject").data(graph.nodes);
+
+            graph.links = graph.links.filter(function(d){
+               return d.source.id != exitNode.id && d.target.id != exitNode.id})
+
+            links = svg.selectAll("g.links")
+                .selectAll("line")
+                .data(graph.links);
+
+            links.exit().remove();
+            nodes.exit().remove();
+
+        })
+
+        var removeLinkButton = document.createElement("button")
+        removeLinkButton.innerHTML = "Remove Link"
+        removeLinkButton.style.height = "50px"
+        removeLinkButton.style.width = "100px"
+        removeLinkButton.style.position = "relative"
+        removeLinkButton.style.top = "-30px"
+        removeLinkButton.style.left = "-100px"
+
+        var body = document.getElementsByTagName("body")[0]
+        body.appendChild(removeLinkButton)
+
+        removeLinkButton.addEventListener("click", function () {
+
+            graph.links.pop()
+            links = svg.selectAll("g.links")
+                .selectAll("line")
+                .data(graph.links);
+            links.exit().remove();
+
+        })
+*/
+        var addNodeButton = document.createElement("button")
+        addNodeButton.innerHTML = "Add Node"
+        addNodeButton.style.height = "50px"
+        addNodeButton.style.width = "100px"
+        addNodeButton.style.position = "relative"
+        addNodeButton.style.top = "-750px"
+      //  addNodeButton.style.left = "-200px"
+
+        var body = document.getElementsByTagName("body")[0]
+        body.appendChild(addNodeButton)
+
+        var modal = document.getElementById('myModal');
+
+        var span = document.getElementsByClassName("close")[0];
+
+        var submit = document.getElementById("submitArg");
+
+        addNodeButton.addEventListener("click", function(){
+            $("#myModal").modal();
+        })
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        var id = 1;
+        submit.onclick = function () {
+
+            modal.style.display = "none";
+            var textArea = document.getElementById("divTextarea");
+            console.log(textArea)
+            graph.nodes.push({"id": id, "group": 1, "author": "lc.correia", "score": 0, "content": $("#divTextarea").html()})
+
+
+
+            nodes = svg.selectAll("g.nodes").selectAll("foreignObject").data(graph.nodes);
+
+            nodeEnter = nodes.enter().append("foreignObject")
+                .attr("width", 230)
+                .attr("height", 150)
+                .attr("x",  500)
+                .attr("y", 500)
+                .on("mouseover", function(d){
+                    showPreview(d);
+                })
+                .on("mouseout", function(d){
+                    hidePreview();
+                })
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+
+            var contentDiv = nodeEnter
+                .append("xhtml:div")
+                .attr("id", "newcontentDiv" + id)
+                .attr("class", "contentDiv")
+                .attr("name", id)
+                .style("font", "20px 'Helvetica Neue'")
+                .style("background-color", function (d) {
+                    return calcColor(d);
+                })
+                .html(function (d) {
+                    return d.content
+                });
+
+
+            var likeDiv = nodeEnter
+                .append("xhtml:div")
+                .attr("id", "likeDiv")
+                .style("font", "20px 'Helvetica Neue'")
+                .html("<button style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-up\"></i></button>"
+                    + " 0 " + "<button id =\"dislike\" style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-down\"></i></button>" +
+                    " 0 ")
+
+            node = nodeEnter.merge(nodes)
+
+
+            simulation.nodes(graph.nodes)
+                .on("tick", ticked);
+
+            simulation.force("link")
+                .links(graph.links);
+
+            var newElem = document.getElementById("newcontentDiv" + id);
+            svgFO = document.getElementsByClassName("contentDiv");
+            $(newElem).bind("contextmenu", function (event) {
+
+                // Avoid the real one
+                event.preventDefault();
+
+                // Show contextmenu
+                $(".custom-menu").finish().toggle(100).
+
+                // In the right position (the mouse)
+                css({
+                    top: event.pageY + "px",
+                    left: event.pageX + "px"
+                });
+            });
+
+            $(newElem).on("contextmenu", function () {
+                clickedNode = event.target;
+            });
+
+            id++;
+         }
+        var clickedNode;
+        var svgFO = document.getElementsByClassName("contentDiv");
+      //  var svgFO = $(foreignObject).getSVG();
+      //  console.log(svgFO)
+        // Trigger action when the contexmenu is about to be shown
+        $(svgFO).bind("contextmenu", function (event) {
+
+            // Avoid the real one
+            event.preventDefault();
+
+            // Show contextmenu
+            $(".custom-menu").finish().toggle(100).
+
+            // In the right position (the mouse)
+            css({
+                top: event.pageY + "px",
+                left: event.pageX + "px"
+            });
+        });
+
+
+// If the document is clicked somewhere
+        $(document).bind("mousedown", function (e) {
+
+            // If the clicked element is not the menu
+            if (!$(e.target).parents(".custom-menu").length > 0) {
+
+                // Hide it
+                $(".custom-menu").hide(100);
+            }
+        });
+
+        $(svgFO).on("contextmenu", function () {
+            clickedNode = event.target;
+        });
+
+
+// If the menu element is clicked
+        $(".custom-menu li").click(function(){
+
+            // This is the triggered action name
+            switch($(this).attr("data-action")) {
+
+                // A case for each action. Your actions here
+                case "first":
+                clickedNode.style.border = "2px solid blue"
+                $(svgFO).on("click", function () {
+
+                    graph.links.push({"source": clickedNode.getAttribute("name"), "target": event.target.getAttribute("name"), "value": 15})
+
+                    nodes = svg.selectAll("g.nodes").selectAll("foreignObject").data(graph.nodes);
+
+                    links = svg.selectAll("g.links")
+                        .selectAll("line")
+                        .data(graph.links);
+
+                    // Enter links
+                    linkEnter = links
+                        .enter().append("line")
+                        .attr("stroke-width", function (d) {
+                            return Math.sqrt(d.value);
+                        })
+                        .on("mouseover", function () {
+                            var fo = svg.append("foreignObject")
+                                .attr("width", 100)
+                                .attr("height", 30)
+                                .attr("x", d3.mouse(this)[0] - 30)
+                                .attr("y", d3.mouse(this)[1] - 30)
+                                .attr("class", "svg-tooltip")
+                            var linkLikeDiv = fo.append("xhtml:div")
+                                .attr("id", "likeDiv")
+                                .style("font", "20px 'Helvetica Neue'")
+                                .html("<button style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-up\"></i></button>"
+                                    + " 0 " + "<button id =\"dislike\" style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-down\"></i></button>" +
+                                    " 0 ")
+                        })
+                        .on("mouseout", function () {
+                            svg.selectAll(".svg-tooltip").remove();
+                        });
+
+                    link = linkEnter
+                        .merge(links);
+
+
+                    simulation.nodes(graph.nodes)
+                        .on("tick", ticked);
+
+                    simulation.force("link")
+                        .links(graph.links);
+
+                    $(svgFO).off('click');
+                    clickedNode.style.border = "1px solid black";
+                })
+
+            }
+
+            // Hide it AFTER the action was triggered
+            $(".custom-menu").hide(100);
+        });
+
+
+   /*     $('#nodePreview').html(
+            '<p><b>User:  </b>'+'</p>' +
+            '<p><b>Score:  </b>'+'</p>' +
+            '<p><b>Text:  </b>'+'</p>' +
+           '<div style="position: absolute;bottom:0;"><p>    <span id="posVotesPrev" class="fa fa-thumbs-o-up"></span><span id="posVotesPrevNum" onclick="return false;" class="notClickable">  '+0+'</span>' +
+            '<span id="negVotesPrev" class="fa fa-thumbs-o-down"></span><span id="negVotesPrevNum" class="notClickable" onclick="return false;">  '+0+'</span></p></div>');
+*/
+
+        simulation
+            .nodes(graph.nodes)
+            .on("tick", ticked);
+
+
+        simulation.force("link")
+            .links(graph.links);
+
+        function ticked() {
+            link
+                .attr("x1", function(d) { return movetoX(d); })
+                .attr("y1", function(d) { return movetoY(d); })
+                .attr("x2", function(d) { return linetoX(d)})
+                .attr("y2", function(d) { return linetoY(d)});
+
+
+            node
+                .attr("x", function(d) { return d.x /*= Math.max(30, Math.min(width - limitX, d.x))*/; })
+                .attr("y", function(d) { return d.y /*= Math.max(30, Math.min(height - limitY, d.y))*/; });
+        }
+    });
+
+
+    function dragstarted(d) {
+        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+    }
+
+    function dragended(d) {
+        if (!d3.event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
+
+    function movetoX (d) {
+        // Locate the node where the path will start
+        var node = d3.select("foreignObject");
+
+        // Retrieve the width and height attributes...
+        var w = parseFloat(node.attr("width"));
+        // ...so we can change the x,y coordinates of the node to be
+        // at its center rather than the top-left corner
+        d.source.newX = d.source.x - 30 + (w/2);
+
+        return d.source.newX;
+    };
+
+    function movetoY (d) {
+        // Locate the node where the path will start
+        var node = d3.select("foreignObject");
+
+        // Retrieve the width and height attributes...
+        var h = parseFloat(node.attr("height"));
+
+        // ...so we can change the x,y coordinates of the node to be
+        // at its center rather than the top-left corner
+        d.source.newY = d.source.y - 30 + (h/2);
+
+        return d.source.newY;
+    };
+
+    function linetoX (d) {
+        // Locate the node where the path will end
+        var node = d3.select("foreignObject");
+
+        // Retrieve the width and height attributes...
+        var w = parseFloat(node.attr("width"));
+        var h = parseFloat(node.attr("height"));
+
+        // ...so we can locate the x,y coordinates of the center of
+        // the node...
+        d.target.centerX = d.target.x - 30 + (w/2);
+        d.target.centerY = d.target.y - 30 + (h/2);
+
+        // ...which we will use to calculate the x,y coordinates of
+        // the point on the perimeter of the node where the path will
+        // end -- the idea is that the arrowhead at the end of the
+        // path is "smart" enough to move around the perimeter of the
+        // rectangular node as the node moves around the screen.
+        smartPathEndX(d, w, h);
+        return d.target.newX;
+    };
+
+    function linetoY (d) {
+        // Locate the node where the path will end
+        var node = d3.select("foreignObject");
+
+        // Retrieve the width and height attributes...
+        var w = parseFloat(node.attr("width"));
+        var h = parseFloat(node.attr("height"));
+
+        // ...so we can locate the x,y coordinates of the center of
+        // the node...
+        d.target.centerX = d.target.x - 30 + (w/2);
+        d.target.centerY = d.target.y - 30 + (h/2);
+
+        // ...which we will use to calculate the x,y coordinates of
+        // the point on the perimeter of the node where the path will
+        // end -- the idea is that the arrowhead at the end of the
+        // path is "smart" enough to move around the perimeter of the
+        // rectangular node as the node moves around the screen.
+        smartPathEndY(d, w, h);
+        return d.target.newY;
+    };
+
+    function smartPathEndX(d, w, h) {
+
+        // We need to work out the (tan of the) angle between the
+        // imaginary horizontal line running through the center of the
+        // target node and the imaginary line connecting the center of
+        // the target node with the top-left corner of the same
+        // node. Of course, this angle is fixed.
+        var tanRatioFixed =
+            (d.target.centerY - d.target.y - 30)
+            /
+            (d.target.centerX - d.target.x - 30);
+
+        // We also need to work out the (tan of the) angle between the
+        // imaginary horizontal line running through the center of the
+        // target node and the imaginary line connecting the center of
+        // the target node with the center of the source node. This
+        // angle changes as the nodes move around the screen.
+        var tanRatioMoveable =
+            Math.abs(d.target.centerY - d.source.newY)
+            /
+            Math.abs(d.target.centerX - d.source.newX); // Note,
+        // JavaScript handles division-by-zero by returning
+        // Infinity, which in this case is useful, especially
+        // since it handles the subsequent Infinity arithmetic
+        // correctly.
+
+        // Now work out the intersection point
+
+        if (tanRatioMoveable == tanRatioFixed) {
+            // Then path is intersecting at corner of textbox so draw
+            // path to that point
+
+            // By default assume path intersects a left-side corner
+            d.target.newX = d.target.x - 30;
+
+            // But...
+            if (d.target.centerX < d.source.newX) {
+                // i.e. if target node is to left of the source node
+                // then path intersects a right-side corner
+                d.target.newX = d.target.x - 30 + w;
+            }
+
+        }
+
+        if (tanRatioMoveable < tanRatioFixed) {
+            // Then path is intersecting on a vertical side of the
+            // textbox, which means we know the x-coordinate of the
+            // path endpoint but we need to work out the y-coordinate
+
+            // By default assume path intersects left vertical side
+            d.target.newX = d.target.x - 30;
+
+            // But...
+            if (d.target.centerX < d.source.newX) {
+                // i.e. if target node is to left of the source node
+                // then path intersects right vertical side
+                d.target.newX = d.target.x - 30 + w;
+            }
+
+        }
+
+        if (tanRatioMoveable > tanRatioFixed) {
+            // Then path is intersecting on a horizontal side of the
+            // textbox, which means we know the y-coordinate of the
+            // path endpoint but we need to work out the x-coordinate
+
+            // By default assume path intersects top horizontal side
+            d.target.newX =
+                d.target.centerX - ((d.target.centerY - d.target.y - 30)
+                /
+                tanRatioMoveable);
+
+            // But...
+            if (d.target.centerX < d.source.newX) {
+                // i.e. if target node is to left of the source node
+                // then path intersects towards the righthand side
+                d.target.newX = (2 * (d.target.x - 30)) - d.target.newX + w;
+
+            }
+        }
+    }
+
+    function smartPathEndY(d, w, h) {
+
+        // We need to work out the (tan of the) angle between the
+        // imaginary horizontal line running through the center of the
+        // target node and the imaginary line connecting the center of
+        // the target node with the top-left corner of the same
+        // node. Of course, this angle is fixed.
+        var tanRatioFixed =
+            (d.target.centerY - d.target.y - 30)
+            /
+            (d.target.centerX - d.target.x - 30);
+
+        // We also need to work out the (tan of the) angle between the
+        // imaginary horizontal line running through the center of the
+        // target node and the imaginary line connecting the center of
+        // the target node with the center of the source node. This
+        // angle changes as the nodes move around the screen.
+        var tanRatioMoveable =
+            Math.abs(d.target.centerY - d.source.newY)
+            /
+            Math.abs(d.target.centerX - d.source.newX); // Note,
+        // JavaScript handles division-by-zero by returning
+        // Infinity, which in this case is useful, especially
+        // since it handles the subsequent Infinity arithmetic
+        // correctly.
+
+        // Now work out the intersection point
+
+        if (tanRatioMoveable == tanRatioFixed) {
+            // Then path is intersecting at corner of textbox so draw
+            // path to that point
+
+
+            // By default assume path intersects a top corner
+            d.target.newY = d.target.y - 30;
+
+            // But...
+            if (d.target.centerY < d.source.newY) {
+                // i.e. if target node is above the source node
+                // then path intersects a bottom corner
+                d.target.newY = d.target.y - 30 + h;
+            }
+        }
+
+        if (tanRatioMoveable < tanRatioFixed) {
+            // Then path is intersecting on a vertical side of the
+            // textbox, which means we know the x-coordinate of the
+            // path endpoint but we need to work out the y-coordinate
+
+
+            // Now use a bit of trigonometry to work out the y-coord.
+
+            // By default assume path intersects towards top of node
+            d.target.newY =
+                d.target.centerY - ((d.target.centerX - d.target.x - 30)
+                *
+                tanRatioMoveable);
+
+            // But...
+            if (d.target.centerY < d.source.newY) {
+                // i.e. if target node is above the source node
+                // then path intersects towards bottom of the node
+                d.target.newY = (2 * (d.target.y - 30)) - d.target.newY + h;
+            }
+        }
+
+        if (tanRatioMoveable > tanRatioFixed) {
+            // Then path is intersecting on a horizontal side of the
+            // textbox, which means we know the y-coordinate of the
+            // path endpoint but we need to work out the x-coordinate
+
+            // By default assume path intersects top horizontal side
+            d.target.newY = d.target.y - 30;
+
+            // But...
+            if (d.target.centerY < d.source.newY) {
+                // i.e. if target node is above the source node
+                // then path intersects bottom horizontal side
+                d.target.newY = d.target.y - 30 + h;
+            }
+
+            // Now use a bit of trigonometry to work out the x-coord.
+
+        }
+    }
+
+</script>
+</html>

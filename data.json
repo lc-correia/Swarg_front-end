@@ -1,0 +1,11 @@
+{
+  "nodes": [
+    {"id": "Myriel", "group": 1, "author": "lc.correia", "score": 0.29, "content": "Isto é um argumento"},
+    {"id": "Napoleon", "group": 1, "author": "lc.correia", "score": 0.7, "content": "images/4810A9D300000578-5262705-image-a-1_1515763276565.jpg"},
+    {"id": "Michael", "group": 1, "author": "lc.correia", "score": 0.4, "content": "images/juap_Pkiezh0msE1j4GZ2h113-E9ubdMoXDsVHhbixI.mp4"}
+  ],
+  "links": [
+    {"source": "Napoleon", "target": "Myriel", "value": 15}
+
+  ]
+}
