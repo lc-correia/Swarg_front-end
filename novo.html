@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<body>
 <meta charset="utf-8">
 <head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-
+<body style="background-color: rgb(250,250,250)">
 <ul class='custom-menu'>
     <li data-action = "first">Add Attack</li>
 </ul>
@@ -41,6 +41,41 @@
 
 <div id="pageContainer">
 <div id="rightbarContainer">
+    <div id="filterContainer">Filters
+        <div id="colorBar">
+            <div id ="color1bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color1barIco"></span>
+            </div>
+            <div id ="color2bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color2barIco"></span>
+            </div>
+            <div id ="color3bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color3barIco"></span>
+            </div>
+            <div id ="color4bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color4barIco"></span>
+            </div>
+            <div id ="color5bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color5barIco"></span>
+            </div>
+            <div id ="color6bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color6barIco"></span>
+            </div>
+            <div id ="color7bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color7barIco"></span>
+            </div>
+            <div id ="color8bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color8barIco"></span>
+            </div>
+            <div id ="color9bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color9barIco"></span>
+            </div>
+            <div id ="color10bar" onclick="" >
+                <span style="font-size: medium; margin-left: 2px;" class="typcn typcn-tick"id="color10barIco"></span>
+            </div>
+        </div>
+
+    </div>
 <div id="nodePreviewContainer">
     <div id="nodePreviewTitle">Preview</div>
     <div id="nodePreview">
@@ -50,6 +85,135 @@
 </div>
 </div>
 <style>
+
+  /*  .svg-container {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        padding-bottom: 100%;
+        vertical-align: top;
+        overflow: hidden;
+    }
+    .svg-content {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    } */
+
+  #colorBar{
+      display: flex;
+      position: relative;
+      width: 90%;
+      margin-left: 3%;
+      margin-top: 10px;
+      background-color: transparent;
+      height: 30px;
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+  }
+
+  #color1bar{
+  //position: absolute;
+      width:10%;
+      float:left;
+      background-color: #d01b1b;
+      z-index: 22;
+      cursor: pointer;
+  }
+  #color2bar{
+  //position: absolute;
+      width:10%;
+  //margin-left: 10%;
+      float:left;
+    //  background-color: #cf3a3a;
+      background-color: #d4411f;
+      z-index: 22;
+      cursor: pointer;
+  }
+
+  #color3bar{
+      width:10%;
+  //margin-left: 20%;
+      float:left;
+  //    background-color: #ce5a5a;
+      background-color: #d86724;
+      z-index: 22;
+      cursor: pointer;
+  }
+
+  #color4bar{
+      width:10%;
+      float:left;
+    //  background-color: #cd7979;
+      background-color: #dd8e29;
+      cursor: pointer;
+  }
+
+  #color5bar{
+      width:10%;
+      float:left;
+    //  background-color: #cc9999;
+      background-color: #e1b42e;
+      cursor: pointer;
+  }
+
+  #color6bar{
+      width:10%;
+      float:left;
+   //   background-color: #cbb9b9;
+      background-color: #e6db33;
+      cursor: pointer;
+  }
+
+  #color7bar{
+      width:10%;
+      float:left;
+    //  background-color: #a9bb9b;
+      background-color: #b3d42f;
+      cursor: pointer;
+  }
+
+  #color8bar{
+      width:10%;
+      float:left;
+    //  background-color: #87bd7d;
+      background-color: #8ece35;
+      cursor: pointer;
+  }
+
+  #color9bar{
+      position: relative;
+      height: 100%;
+      width:10%;
+      float:left;
+    //  background-color: #65bf5f;
+      background-color: #69c83b;
+      cursor: pointer;
+  }
+
+  #color10bar{
+      cursor: pointer;
+      width:10%;
+      float:left;
+      background-color: #44c242;
+  }
+
+  #filterContainer{
+      position: absolute;
+      width: 150%;
+      height: 150px;
+      z-index: 2 !important;
+      float: right;
+      top:0px;
+      right:0px;
+      background-color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: large;
+      margin-left: 5px;
+      margin-top: 5px;
+
+  }
 
     [contentEditable=true]:empty:not(:focus):before{
         content:attr(data-text)
@@ -66,7 +230,7 @@
     }
 
     #negVotesPrev{
-        margin-left: 5px;
+        margin-left: 8px;
     }
     #closePreview{
         position: absolute;
@@ -133,13 +297,14 @@
     }
 
     #nodePreview {
-        position: absolute;
-        width: 100%;
-        height: 85%;
+        position: relative;
+        width: 150%;
+        height: 55%;
         border: 1px solid lightgray;
         border-radius: 0px;
         background-color: #f0f0f0;
         float: right;
+        right: 0px;
         bottom:0;
         z-index: 2 !important;
     }
@@ -225,13 +390,22 @@
         stroke: #fff;
         stroke-width: 1.5px;
         background: transparent;
-        border:1px solid black;
+        border:3px solid grey;
+        border-radius: 25px;
         height: 100%;
+        padding-left: 10px;
+        padding-top:5px;
         overflow-wrap: break-word;
     }
 
+  #likeAttackDiv {
+      border: 1px solid black;
+      width:130px;
+      margin-left: 50px;
+      background-color: white;
+  }
+
     #likeDiv {
-        border:1px solid black;
         width:115px;
         margin-left: 50px;
     }
@@ -240,6 +414,11 @@
         background: transparent;
         border-style: none;
     }
+
+  #likeAttackDiv button{
+      background: transparent;
+      border-style: none;
+  }
 
     #dislike{
         padding-left: 15px;
@@ -256,13 +435,47 @@
         background: transparent;
     }
 
+
+  .overlay {
+      position: absolute;
+      top: 20%;
+      bottom: 0;
+      left: 95%;
+      right: 0;
+      height: 2000%;
+      width: 800%;
+      opacity: 0;
+      transition: .1s ease;
+      background-color: #999;
+  }
+
+  #addButton:hover .overlay {
+      opacity: 0.87;
+  }
+
+  .text {
+      color: black;
+      font-weight: bold;
+      font-size: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      text-align: center;
+  }
+
 </style>
-<svg width="1600" height="800"></svg>
+
+<svg width="1062" height="800"></svg>
+</body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="dist/jquery.svg.es5.min.js"></script>
 <script>
+
+  var data;
 
     function handleFiles(files) {
         if(files.length){
@@ -289,12 +502,17 @@
                     var textArea = document.getElementById("divTextarea");
                     textArea.appendChild(vid);
                 }
+                data = new FormData();
+                data.append("file", files[i]);
             }
         }
     }
 
-    var svg = d3.select("svg"),
-        width = +svg.attr("width"),
+        var svg = d3.select("svg");
+    console.log(window.innerHeight)
+        svg.attr("height", window.innerHeight *0.97);
+        svg.attr("width", window.innerWidth * 0.7)
+        var width = +svg.attr("width"),
         height = +svg.attr("height"),
         limitX = 200,
         limitY = 150;
@@ -327,6 +545,7 @@
         var g = svg.append("g")
             .attr("class", "everything");
 
+        var selectedAttack;
 
         var link = g.append("g")
             .attr("class", "links")
@@ -337,7 +556,7 @@
             .attr("stroke-width", function (d) {
                 return Math.sqrt(d.value);
             })
-            .on("mouseover", function () {
+            .on("click", function () {
                 var fo = svg.append("foreignObject")
                     .attr("width", 100)
                     .attr("height", 30)
@@ -345,15 +564,27 @@
                     .attr("y", d3.mouse(this)[1] - 30)
                     .attr("class", "svg-tooltip")
                 var linkLikeDiv = fo.append("xhtml:div")
-                    .attr("id", "likeDiv")
-                    .style("font", "20px 'Helvetica Neue'")
+                    .attr("id", "likeAttackDiv")
+                    .style("font", "20px 'Helvetica'")
                     .html("<button style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-up\"></i></button>"
                         + " 0 " + "<button id =\"dislike\" style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-down\"></i></button>" +
                         " 0 ")
+                selectedAttack = d3.event.target;
+                selectedAttack.style.stroke = "black";
+                link.on("mouseout", null)
+                var firstAttack = false
+                d3.select("svg")
+                    .on("click", function () {
+                        if(d3.event.target != selectedAttack && firstAttack) {
+                            selectedAttack.style.stroke = "grey"
+                            svg.selectAll(".svg-tooltip").remove();
+                            d3.select("svg").on("click", null);
+                        }
+                        firstAttack = true;
+                    })
             })
-            .on("mouseout", function () {
-                svg.selectAll(".svg-tooltip").remove();
-            })
+
+        var selectedNode;
 
         var node = g.append("g")
             .attr("class", "nodes")
@@ -369,7 +600,30 @@
             .on("mouseover", function(d){
                 showPreview(d);
             })
-            .on("mouseout", function(d){
+            .on("click", function(d){
+                showPreview(d);
+                selectedNode = d3.event.target;
+                selectedNode.style.border = "3px solid blue"
+                node.on("mouseout", null)
+                node.on("mouseover", null)
+                var first = false
+                d3.select("svg")
+                    .on("click", function () {
+                        if(d3.event.target != clickedNode && first) {
+                            hidePreview();
+                            selectedNode.style.border = "3px solid grey"
+                            node.on("mouseover", function (d) {
+                                showPreview(d);
+                            })
+                            node.on("mouseout", function () {
+                                hidePreview();
+                            })
+                            d3.select("svg").on("click", null);
+                        }
+                        first = true;
+                    })
+            })
+            .on("mouseout", function(){
                 hidePreview();
             })
             .call(d3.drag()
@@ -384,7 +638,7 @@
             .attr("name", function (d){
                 return d.id;
             })
-            .style("font", "20px 'Helvetica Neue'")
+            .style("font", "20px 'Helvetica'")
             .style("background-color", function (d) {
                 return calcColor(d);
             })
@@ -407,8 +661,8 @@
                     '<p><b>Score:  </b>'+d.score+'</p>' +
                     '<p><b>Text:  </b>'+d.content
                     +
-                    '<div style="position: absolute;bottom:0;"><p>    <span id="posVotesPrev" onclick="" class="fa fa-thumbs-o-up"></span><span id="posVotesPrevNum" onclick="return false;" class="notClickable">  '+0+'</span>' +
-                    '<span id="negVotesPrev" onclick="" class="fa fa-thumbs-o-down"></span><span id="negVotesPrevNum" class="notClickable" onclick="return false;">  '+0+'</span></p></div>');
+                    '<div style="position: absolute;bottom:0;"><p>    <span id="posVotesPrev" onclick="" class="fa fa-thumbs-o-up" style="font-size:24px"></span><span id="posVotesPrevNum" onclick="return false;" class="notClickable">  '+0+'</span>' +
+                    '<span id="negVotesPrev" onclick="" class="fa fa-thumbs-o-down" style="font-size:24px"></span><span id="negVotesPrevNum" class="notClickable" onclick="return false;">  '+0+'</span></p></div>');
             }
             
             function hidePreview() {
@@ -417,27 +671,51 @@
                 $('#nodePreview').css('background-color', '#f0f0f0');
             }
 
-            function calcColor(d) {
+
+
+   /*         function calcColor(d) {
                 var red;
                 var green;
                 var blue;
                 var relScore;
               if(d.score <= 0.5){
                   relScore = d.score * 2;
-                  red = Math.round(255 - relScore * 38);
-                  green = Math.round(33 + relScore * 184);
+                  red = Math.round(208 - relScore * 5);
+                  green = Math.round(27 + relScore * 158);
                   blue = green
               }
               else{
                   relScore = (d.score - 0.5) * 2;
-                  red = Math.round(217 - relScore * 184);
-                  green = Math.round(217 + relScore * 38);
-                  blue = red;
+                  red = Math.round(203 - relScore * 135);
+                  green = Math.round(185 + relScore * 9);
+                  blue = Math.round(185 - relScore * 119);
               }
 
                 return 'rgb(' + red + ',' + green + ',' + blue + ')';
             }
-   /*       function showContent(d) {
+*/
+        function calcColor(d) {
+            var red;
+            var green;
+            var blue;
+            var relScore;
+            if(d.score <= 0.5){
+                relScore = d.score * 2;
+                red = Math.round(208 + relScore * 22);
+                green = Math.round(27 + relScore * 192);
+                blue = Math.round(27 + relScore * 24);
+            }
+            else{
+                relScore = (d.score - 0.5) * 2;
+                red = Math.round(230 - relScore * 162);
+                green = Math.round(219 - relScore * 25);
+                blue = Math.round(51 + relScore * 15);
+            }
+
+            return 'rgb(' + red + ',' + green + ',' + blue + ')';
+        }
+
+          function showContent(d) {
             if (d.type == "text")
                 return d.content;
             else if (d.type == "image")
@@ -447,11 +725,11 @@
             }
 
         }
-*/
+
         var likeDiv = d3.selectAll("foreignObject")
             .append("xhtml:div")
             .attr("id", "likeDiv")
-            .style("font", "20px 'Helvetica Neue'")
+            .style("font", "20px 'Helvetica'")
             .html("<button style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-up\"></i></button>"
                 + " 0 " + "<button id =\"dislike\" style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-down\"></i></button>" +
                 " 0 ")
@@ -506,15 +784,28 @@
         })
 */
         var addNodeButton = document.createElement("button")
-        addNodeButton.innerHTML = "Add Node"
-        addNodeButton.style.height = "50px"
-        addNodeButton.style.width = "100px"
+        addNodeButton.id = "addButton"
+        addNodeButton.innerHTML = "<img src='images/buttons/addBtn.png'  class=\"image\" />"
+        addNodeButton.style.background = "none";
+        addNodeButton.style.border = "none";
+        addNodeButton.style.height = "5px"
+        addNodeButton.style.width = "10px"
         addNodeButton.style.position = "relative"
-        addNodeButton.style.top = "-750px"
+        addNodeButton.style.top = "-50px"
+
       //  addNodeButton.style.left = "-200px"
 
         var body = document.getElementsByTagName("body")[0]
         body.appendChild(addNodeButton)
+
+        var overlayDiv = document.createElement("div")
+        overlayDiv.className = "overlay"
+        addNodeButton.appendChild(overlayDiv)
+
+        var addText = document.createElement("div")
+        addText.className = "text"
+        addText.innerHTML =  "<div class='text'>New Argument</div>"
+        overlayDiv.appendChild(addText)
 
         var modal = document.getElementById('myModal');
 
@@ -539,12 +830,14 @@
         var id = 1;
         submit.onclick = function () {
 
+            xhr = new XMLHttpRequest();
+            xhr.open("post", "http://localhost:xxxx/rest", true);
+            xhr.send(data);
+
             modal.style.display = "none";
             var textArea = document.getElementById("divTextarea");
             console.log(textArea)
             graph.nodes.push({"id": id, "group": 1, "author": "lc.correia", "score": 0, "content": $("#divTextarea").html()})
-
-
 
             nodes = svg.selectAll("g.nodes").selectAll("foreignObject").data(graph.nodes);
 
@@ -570,7 +863,7 @@
                 .attr("id", "newcontentDiv" + id)
                 .attr("class", "contentDiv")
                 .attr("name", id)
-                .style("font", "20px 'Helvetica Neue'")
+                .style("font", "20px 'Helvetica'")
                 .style("background-color", function (d) {
                     return calcColor(d);
                 })
@@ -582,7 +875,7 @@
             var likeDiv = nodeEnter
                 .append("xhtml:div")
                 .attr("id", "likeDiv")
-                .style("font", "20px 'Helvetica Neue'")
+                .style("font", "20px 'Helvetica'")
                 .html("<button style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-up\"></i></button>"
                     + " 0 " + "<button id =\"dislike\" style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-down\"></i></button>" +
                     " 0 ")
@@ -651,6 +944,7 @@
             }
         });
 
+
         $(svgFO).on("contextmenu", function () {
             clickedNode = event.target;
         });
@@ -664,7 +958,7 @@
 
                 // A case for each action. Your actions here
                 case "first":
-                clickedNode.style.border = "2px solid blue"
+                clickedNode.style.border = "3px solid blue"
                 $(svgFO).on("click", function () {
 
                     graph.links.push({"source": clickedNode.getAttribute("name"), "target": event.target.getAttribute("name"), "value": 15})
@@ -690,7 +984,7 @@
                                 .attr("class", "svg-tooltip")
                             var linkLikeDiv = fo.append("xhtml:div")
                                 .attr("id", "likeDiv")
-                                .style("font", "20px 'Helvetica Neue'")
+                                .style("font", "20px 'Helvetica'")
                                 .html("<button style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-up\"></i></button>"
                                     + " 0 " + "<button id =\"dislike\" style=\"font-size:24px\"><i class=\"fa fa-thumbs-o-down\"></i></button>" +
                                     " 0 ")
@@ -710,7 +1004,7 @@
                         .links(graph.links);
 
                     $(svgFO).off('click');
-                    clickedNode.style.border = "1px solid black";
+                    clickedNode.style.border = "3px solid grey";
                 })
 
             }
